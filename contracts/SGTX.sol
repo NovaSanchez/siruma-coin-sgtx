@@ -47,7 +47,7 @@ contract SigatTokenX  {
     // }
 
     modifier isOwner() {
-        required(
+        require(
             msg.sender == _owner,
             'Only Owner con activate'
         );
@@ -55,7 +55,7 @@ contract SigatTokenX  {
     }
 
     modifier isZeroAddress() {
-        required(
+        require(
             msg.sender == _owner,
             'Only Owner con activate'
         );
