@@ -1,11 +1,7 @@
-pragma solidity >=0.8.17 <=0.8.21;
+pragma solidity >= 0.8.17 <=0.8.21;
 pragma experimental ABIEncoderV2;
 
 contract Licencias {
-    constructor() {
-        _owners[msg.sender] = true;
-        owner = msg.sender;
-    }
     struct StructLicencia {
         string alcaldia;
         string rif;
@@ -14,7 +10,6 @@ contract Licencias {
         string activitis;
         bytes32 firma;
     }
-
     event licencia(address indexed _addressHolder, StructLicencia data);
 
     mapping(address => mapping(string => StructLicencia)) _recordedLicenses;
@@ -30,21 +25,23 @@ contract Licencias {
     address owner;
 
     StructLicencia objlisense;
+    constructor() {
+        _owners[msg.sender] = true;
+        owner = msg.sender;
+    }
 
-    function createLicencia(
+    function mintLincence(
         string calldata _alcaldia,
         string calldata _rif,
         uint _renoDate,
         uint _expDate,
         string calldata _activitis,
         string memory license
-    ) public payable isSomeOwner returns (bytes32){
+    ) public payable isOwners returns (bytes32) {
 
         address _holder = taxpayerAddress(_rif);
 
-        if(_holder == address(0)) {
-            revert('Rif Not Registred has Taxpayer');
-        }
+        require(_holder != address(0), 'Rif Not Registred has Taxpayer');
 
         bytes32 singLicense = singLicense(
             _holder,
@@ -99,14 +96,14 @@ contract Licencias {
 
     function getUserLicences(
         address _holder
-    ) public view returns (string[] memory) {
+    ) public view isOwners returns (string[] memory) {
         return _userLicenses[_holder];
     }
 
     function getLicenseLicence(
         address _holder,
         string memory license
-    ) public view returns (StructLicencia memory) {
+    ) public view isOwners returns (StructLicencia memory) {
         return _recordedLicenses[_holder][license];
     }
 
@@ -115,16 +112,17 @@ contract Licencias {
         string memory license,
         string memory activities,
         uint expirationDate
-    ) private returns (bytes32) {
+    ) private view returns (bytes32) {
         return
             keccak256(abi.encode(_holder, license, activities, expirationDate));
     }
 
-    // function getAddressSings(address sub) public view isSomeOwner(string[] memory) {
-    //     return _userSings[sub];
-    // }
-
-    function validLicence(address sub, bytes32 sing) public view returns(bool) {
+    function validLicence(string memory rif, bytes32 sing) public view returns(bool) {
+        bool _ask = validTaxPayer(rif);
+        if(!_ask) {
+            revert('Rif not registred');
+        }
+        address sub = taxpayerAddress(rif);
         bytes32[] memory userSings = _userSings[sub];
         for (uint256 i = 0; i < userSings.length; i++) {
             if(userSings[i] == sing) {
@@ -137,30 +135,53 @@ contract Licencias {
     function addOwners(address subject) public payable isOwner{
         _owners[subject] = true;
     }
-
-    modifier isOwner() {
-        require(msg.sender == owner, "Only Owner con activate");
-        _;
+    function cancelOwners(address subject) public payable isOwner{
+        _owners[subject] = false;
     }
 
-    modifier isSomeOwner() {
-        require(_owners[msg.sender] == true, "Only Owner con activate");
-        _;
-    }
-
-    function taxpayerAddress(string memory _rif) public view returns (address) {
+    function taxpayerAddress(string memory _rif) public view isOwners returns (address) {
         return _taxpayers[_rif];
     }
 
-    function validTaxPayer(string memory _rif) private returns (bool) {
+    function validTaxPayer(string memory _rif) private view returns (bool) {
         address valid = taxpayerAddress(_rif);
         if(valid == address(0)) {
             return false;
         }
+        return true;
     }
     function addTaxPayer(string memory _rif, address _relationAddress) public isOwner returns (bool) {
         _taxpayers[_rif] = _relationAddress;
         return true;
     }
+
+
+    //region "self-maintained user"
+
+    function getLicenseLicence(
+        string memory license
+    ) public view returns (StructLicencia memory) {
+        return _recordedLicenses[msg.sender][license];
+    }
+
+     function getUserLicences(
+        address _holder
+    ) public view returns (string[] memory) {
+        return _userLicenses[msg.sender];
+    }
+
+    //end-Region
+
+
+    modifier isOwner() {
+        require(msg.sender == owner, "Only Owner can activate");
+        _;
+    }
+
+    modifier isOwners() {
+        require(_owners[msg.sender]);
+        _;
+    }
+
 
 }
