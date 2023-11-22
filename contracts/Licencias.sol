@@ -14,6 +14,8 @@ contract Licencias {
 
     mapping(address => mapping(string => StructLicencia)) _recordedLicenses;
 
+    mapping(bytes32 => StructLicencia) _signatureLicenses;
+
     mapping(address => string[]) _userLicenses;
 
     mapping(address => bytes32[]) _userSings;
@@ -61,7 +63,7 @@ contract Licencias {
 
         _createUpdateContracLicense(_holder, license, objlisense);
 
-        string[] memory userLicenses = getUserLicences(_holder);
+        string[] memory userLicenses = _getUserLicences(_holder);
 
         if (userLicenses.length == 0) {
             _loadLicenseAnUser(_holder, license);
@@ -71,12 +73,39 @@ contract Licencias {
         return objlisense.firma;
     }
 
+
+     function validLincenceSing(
+        string calldata _alcaldia,
+        string calldata _rif,
+        uint _renoDate,
+        uint _expDate,
+        string calldata _activitis,
+        string memory license
+    ) public payable isOwners returns (bool) {
+
+        address _holder = taxpayerAddress(_rif);
+
+        require(_holder != address(0), 'Rif Not Registred has Taxpayer');
+
+        bytes32 singLicense = singLicense(
+            _holder,
+            license,
+            _activitis,
+            _expDate
+        );
+
+        bool valid = ValidLicence(_rif, singLicense);
+
+        return valid;
+    }
+
     function _createUpdateContracLicense (
         address _holder,
         string memory licence,
         StructLicencia memory _val
     ) private {
         _recordedLicenses[_holder][licence] = _val;
+        _signatureLicenses(licence) = _val;
         emit licencia(msg.sender, objlisense);
     }
 
@@ -94,7 +123,7 @@ contract Licencias {
         _userSings[_holder].push(sing);
     }
 
-    function getUserLicences(
+    function _getUserLicences(
         address _holder
     ) public view isOwners returns (string[] memory) {
         return _userLicenses[_holder];
@@ -117,7 +146,7 @@ contract Licencias {
             keccak256(abi.encode(_holder, license, activities, expirationDate));
     }
 
-    function validLicence(string memory rif, bytes32 sing) public view returns(bool) {
+    function ValidLicence(string memory rif, bytes32 sing) public view returns(bool) {
         bool _ask = validTaxPayer(rif);
         if(!_ask) {
             revert('Rif not registred');
@@ -135,6 +164,7 @@ contract Licencias {
     function addOwners(address subject) public payable isOwner{
         _owners[subject] = true;
     }
+
     function cancelOwners(address subject) public payable isOwner{
         _owners[subject] = false;
     }
