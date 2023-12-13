@@ -173,7 +173,7 @@ contract LicenseTaxPayer is ISignature {
         return true;
     }
 
-    function addApprovers(string memory _Id, address _relationAddress) public isOwner returns (bool) {
+    function addApprovers(string memory _Id, address _relationAddress) public returns (bool) {
         _approvers[_Id] = _relationAddress;
         return true;
     }

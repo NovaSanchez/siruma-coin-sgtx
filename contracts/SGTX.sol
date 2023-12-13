@@ -1,11 +1,10 @@
 pragma solidity ^0.8.20;
 
-
 contract SigatTokenX  {
 
     address private _owner;
-    string public _name;
-    string public _symbol;
+    string private _name;
+    string private _symbol;
     uint256 private _supply;
 
     mapping(address => uint256) public _balances;
@@ -23,14 +22,14 @@ contract SigatTokenX  {
     //  function decimals() public view virtual returns (uint8) {
     //     return 8;
     // }
- 
+
     // function totalSupply() public view virtual returns (uint256) {
     //     return _totalSupply;
     // }
 
-    // function balanceOf(address account) public view virtual returns (uint256) {
-    //     return _balances[account];
-    // }
+    function balanceOf(address account) public view virtual returns (uint256) {
+        return _balances[account];
+    }
 
     // function name() public view virtual returns (string memory) {
     //     return _name;
@@ -45,6 +44,18 @@ contract SigatTokenX  {
     //     _transfer(owner, to, value);
     //     return true;
     // }
+
+    function name() public view virtual returns (string memory) {
+        return _name;
+    }
+
+    function symbol() public view virtual returns (string memory) {
+        return _symbol;
+    }
+
+    function decimals() public view virtual returns (uint8) {
+        return 18;
+    }
 
     modifier isOwner() {
         require(
@@ -63,7 +74,6 @@ contract SigatTokenX  {
     }
 
     function TranferOwner( address newOwner) public virtual isOwner return (address) {
-
         _owner = newOwner;
     }
 
