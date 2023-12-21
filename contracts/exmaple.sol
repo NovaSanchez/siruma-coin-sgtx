@@ -10,6 +10,8 @@ contract exampleSoft {
         bool isValid;
     }
 
+    bool someBoolVar = true;
+
     mapping (string => lol) mp;
 
     function make(string memory a, string memory b, string memory c) public payable returns(bool) {
@@ -25,5 +27,10 @@ contract exampleSoft {
             return false;
         }
         return true;
+    }
+
+    function check() external view returns(bool ){
+        return someBoolVar;
+
     }
 }

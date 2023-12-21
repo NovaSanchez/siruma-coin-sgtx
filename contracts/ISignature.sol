@@ -23,8 +23,8 @@ interface ISignature {
 
     function signatureValidate(bytes32 singnature) external view returns (bool);
 
-    function getAddressSignature(bytes32 singnature) external view returns (StructSignature memory);
+    function getSignature(bytes32 singnature) external view returns (StructSignature memory);
 
-    function getManyAddressSignature(address taxpayer) external view returns (bytes32[] memory);
+    function getManyAddressSignature(address owner) external view returns (bytes32[] memory);
 
 }

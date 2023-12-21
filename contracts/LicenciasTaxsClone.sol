@@ -205,7 +205,7 @@ contract LicenseTaxPayer is ISignature {
 
     function expirationLicense(
         bytes32 singnature
-    ) public isAdmin returns (bool) {
+    ) public payable isAdmin returns (bool) {
         StructSignature memory objlisense = _signatureEnabled[singnature];
         _deleteLicense(singnature, objlisense.owner);
         bytes32[] memory ownersClientLicenses = _userSings[objlisense.owner];
