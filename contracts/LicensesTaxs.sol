@@ -36,6 +36,8 @@ contract LicenseTaxPayer is ISignature {
 
     address public successor;
 
+    int32 public totalMinted = 0;
+
     constructor() {
         _admins[msg.sender] = true;
         owner = msg.sender;
@@ -82,7 +84,7 @@ contract LicenseTaxPayer is ISignature {
         );
 
         _checkLicense(objlisense);
-
+        totalMinted =+1;
         return objlisense.signature;
     }
 
@@ -222,8 +224,8 @@ contract LicenseTaxPayer is ISignature {
     }
 
 
-    function getExpiredLicense(address owner , bytes32 sign) public payable isOwner returns (StructSignature memory) {
-        StructSignature[] memory objLincenses = _recordedLicenses[owner];
+    function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory) {
+        StructSignature[] memory objLincenses = _recordedLicenses[_owner];
          for (uint256 i = 0; i < objLincenses.length; i++) {
             if (objLincenses[i].signature == sign) {
                 return objLincenses[i];

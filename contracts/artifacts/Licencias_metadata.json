@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.20+commit.a1b79de6"
+		"version": "0.8.21+commit.d9974bed"
 	},
 	"language": "Solidity",
 	"output": {
@@ -64,6 +64,49 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "rif",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "sing",
+						"type": "bytes32"
+					}
+				],
+				"name": "ValidLicence",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_holder",
+						"type": "address"
+					}
+				],
+				"name": "_getUserLicences",
+				"outputs": [
+					{
+						"internalType": "string[]",
+						"name": "",
+						"type": "string[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "subject",
 						"type": "address"
@@ -101,45 +144,65 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
-						"name": "_alcaldia",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "_rif",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_renoDate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_expDate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "_activitis",
-						"type": "string"
-					},
+						"internalType": "address",
+						"name": "subject",
+						"type": "address"
+					}
+				],
+				"name": "cancelOwners",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"internalType": "string",
 						"name": "license",
 						"type": "string"
 					}
 				],
-				"name": "createLicencia",
+				"name": "getLicenseLicence",
 				"outputs": [
 					{
-						"internalType": "bytes32",
+						"components": [
+							{
+								"internalType": "string",
+								"name": "alcaldia",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "rif",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "renoDate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "expDate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "activitis",
+								"type": "string"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "firma",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct Licencias.StructLicencia",
 						"name": "",
-						"type": "bytes32"
+						"type": "tuple"
 					}
 				],
-				"stateMutability": "payable",
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -221,6 +284,50 @@
 				"inputs": [
 					{
 						"internalType": "string",
+						"name": "_alcaldia",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_rif",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_renoDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_expDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_activitis",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "license",
+						"type": "string"
+					}
+				],
+				"name": "mintLincence",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
 						"name": "_rif",
 						"type": "string"
 					}
@@ -239,17 +346,37 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "sub",
-						"type": "address"
+						"internalType": "string",
+						"name": "_alcaldia",
+						"type": "string"
 					},
 					{
-						"internalType": "bytes32",
-						"name": "sing",
-						"type": "bytes32"
+						"internalType": "string",
+						"name": "_rif",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_renoDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_expDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_activitis",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "license",
+						"type": "string"
 					}
 				],
-				"name": "validLicence",
+				"name": "validLincenceSing",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -257,7 +384,7 @@
 						"type": "bool"
 					}
 				],
-				"stateMutability": "view",
+				"stateMutability": "payable",
 				"type": "function"
 			}
 		],
@@ -289,10 +416,10 @@
 	},
 	"sources": {
 		"TokenSGTX/contracts/Licencias.sol": {
-			"keccak256": "0x831904dfdfcf2c5a9a7e680fb2e8dc9afe122a6c389237638d8f5c4839fc3c16",
+			"keccak256": "0x8e8ef15969625bb591469ab8396557d361752ae1f2b38bf4ef07a23ce9f1c1f9",
 			"urls": [
-				"bzz-raw://ed10a8884e32cfbfd02b3ea63918aecf3718a120fc7f187bdef52da55efbacfe",
-				"dweb:/ipfs/QmU2hn2vBPo8ouFPaHwkdeiukSrmtGEbSM9HQJ2YUyNnXC"
+				"bzz-raw://067946e4660a3bff1936e2a9cea97c283eb7c0133e6656f5f05b31bb956cb4fe",
+				"dweb:/ipfs/QmPQ1FdCt7tvAAyR4qs47BWNwvQxnG9E5JYdsadb6jAdT9"
 			]
 		}
 	},
