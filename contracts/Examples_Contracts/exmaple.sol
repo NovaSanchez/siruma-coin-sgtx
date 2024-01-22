@@ -14,12 +14,13 @@ contract exampleSoft {
 
     mapping (string => lol) mp;
 
+    error CustomErrorMaker();
+
     function make(string memory a, string memory b, string memory c) public payable returns(bool) {
         lol memory obj = lol(a,b,c, true);
         mp[a] = obj;
         return true;
     }
-    
 
     function views(string memory a) public view returns(bool) {
         lol memory obj = mp[a];
@@ -33,4 +34,19 @@ contract exampleSoft {
         return someBoolVar;
 
     }
+
+    function check_one() public view virtual returns(bool ){
+        return someBoolVar;
+    }
+
+    function makeError(uint number) public returns(bool) {
+        require(
+            number == 1,
+            CustomErrorMaker()
+        );
+        return true;
+    }
+
+
+
 }

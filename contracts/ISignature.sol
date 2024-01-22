@@ -20,7 +20,6 @@ interface ISignature {
         string calldata identifier
     ) external payable returns (bytes32);
 
-
     function signatureValidate(bytes32 singnature) external view returns (bool);
 
     function getSignature(bytes32 singnature) external view returns (StructSignature memory);

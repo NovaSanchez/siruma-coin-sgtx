@@ -146,8 +146,6 @@ contract USDT is Owned {
   }
 
 
-
-
   modifier canMint() {
     require(!mintingFinished);
     _;

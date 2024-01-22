@@ -6,6 +6,7 @@ pragma experimental ABIEncoderV2;
 import { ISignature } from "./ISignature.sol";
 
 contract LicenseTaxPayer is ISignature {
+
     mapping(bytes32 => StructSignature) _signatureEnabled;
 
     mapping(address => bytes32[]) _userSings;
@@ -19,6 +20,8 @@ contract LicenseTaxPayer is ISignature {
     mapping(address => bool) _propoceAdmins;
 
     mapping(string => address) _approvers;
+
+    mapping(address owner => uint256) private _balances;
 
     event eventSignatureCreate(address indexed _addressHolder, bytes32 sing);
 
@@ -38,9 +41,17 @@ contract LicenseTaxPayer is ISignature {
 
     int32 public totalMinted = 0;
 
-    constructor() {
+    string private _name;
+
+    string private _symbol;
+
+    constructor(
+        string memory name_, string memory symbol_
+    ) {
         _admins[msg.sender] = true;
         owner = msg.sender;
+        _name = name_;
+        _symbol = symbol_;
     }
 
     function signatureMint(
@@ -84,7 +95,8 @@ contract LicenseTaxPayer is ISignature {
         );
 
         _checkLicense(objlisense);
-        totalMinted =+1;
+        totalMinted +=1;
+        _balances[taxpayerAddress(_owner)] +=1;
         return objlisense.signature;
     }
 
@@ -212,6 +224,7 @@ contract LicenseTaxPayer is ISignature {
     ) public payable isAdmin returns (bool) {
         StructSignature memory objlisense = _signatureEnabled[singnature];
         _deleteLicense(singnature, objlisense.owner);
+        _balances[objlisense.owner] -=1;
         bytes32[] memory ownersClientLicenses = _userSings[objlisense.owner];
         for (uint256 i = 0; i < ownersClientLicenses.length; i++) {
             if (ownersClientLicenses[i] == singnature) {
@@ -312,5 +325,20 @@ contract LicenseTaxPayer is ISignature {
     modifier allowMint() {
         require(stopMinting == true, "Minting has stoped by the owner");
         _;
+    }
+
+    function name() public view virtual returns (string memory) {
+        return _name;
+    }
+
+    /**
+     * @dev See {IERC721Metadata-symbol}.
+     */
+    function symbol() public view virtual returns (string memory) {
+        return _symbol;
+    }
+
+    function balance() public view virtual returns (uint256) {
+        return _balances[msg.sender];
     }
 }
