@@ -2,8 +2,10 @@
 
 pragma solidity ^0.8.20;
 
-import {IERC20} from "./Examples_Contracts/IERC20.sol";
-import {IERC20Errors} from "./Examples_Contracts/draft-IERC6093.sol";
+import {IERC20} from "./libs/IERC20.sol";
+import {IERC20Errors} from "./libs/draft-IERC6093.sol";
+
+
 
 contract SigatTokenX is IERC20, IERC20Errors {
     address private _owner;
@@ -220,8 +222,9 @@ contract SigatTokenX is IERC20, IERC20Errors {
 
     function TranferOwner(
         address newOwner
-    ) public virtual isOwner returns (address) {
+    ) public virtual isOwner returns (address new_owner) {
         _owner = newOwner;
+        return newOwner;
     }
 
     function isPaused() public view  returns (bool) {
@@ -236,9 +239,10 @@ contract SigatTokenX is IERC20, IERC20Errors {
     }
 
     // This function is used to Remove Pause from the token transfers, can be called only by owner
-    function unPause() public isOwner returns (bool) {
+    function unPause() public isOwner returns (bool statusPause) {
         _paused = false;
         emit Paused(msg.sender, block.timestamp, false);
+        return _paused;
     }
 
     function isFreeTranfer() internal view virtual returns (bool) {
@@ -253,9 +257,10 @@ contract SigatTokenX is IERC20, IERC20Errors {
     }
 
     // This function is used to Remove Pause from the token transfers, can be called only by owner
-    function unFreeTransfer() public isOwner returns (bool) {
+    function unFreeTransfer() public isOwner returns (bool statusTransfer) {
         _freeTranfer = false;
         emit FreeTranfered(msg.sender, block.timestamp, false);
+        return _freeTranfer;
     }
 
     function FreezeAddress(address adr) public isOwner returns (bool) {

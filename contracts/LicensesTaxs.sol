@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
+
 
 pragma solidity >=0.8.17 <=0.8.21;
 pragma experimental ABIEncoderV2;
 
-import { ISignature } from "./ISignature.sol";
+import { ISignature } from "./libs/ISignature.sol";
 
 contract LicenseTaxPayer is ISignature {
 
@@ -76,7 +77,7 @@ contract LicenseTaxPayer is ISignature {
             "Approver cannot prove himself"
         );
 
-        bytes32 singLicense = singLicense(
+        bytes32 objSingLicense = singLicense(
             _consept,
             identifier,
             taxpayerAddress(_owner),
@@ -90,7 +91,7 @@ contract LicenseTaxPayer is ISignature {
             taxpayerAddress(_owner),
             data,
             _approvers[_approver],
-            singLicense,
+            objSingLicense,
             true
         );
 
@@ -129,9 +130,9 @@ contract LicenseTaxPayer is ISignature {
     }
 
     function getManyAddressSignature(
-        address owner
+        address _owner
     ) external view isAdmin returns (bytes32[] memory) {
-        return _userSings[owner];
+        return _userSings[_owner];
     }
 
     function getOwnerAddressSignature() external view returns (bytes32[] memory) {
@@ -237,7 +238,7 @@ contract LicenseTaxPayer is ISignature {
     }
 
 
-    function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory) {
+    function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory oldLicense) {
         StructSignature[] memory objLincenses = _recordedLicenses[_owner];
          for (uint256 i = 0; i < objLincenses.length; i++) {
             if (objLincenses[i].signature == sign) {

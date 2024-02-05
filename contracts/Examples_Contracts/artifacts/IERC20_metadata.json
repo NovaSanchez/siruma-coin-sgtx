@@ -190,6 +190,7 @@
 			}
 		],
 		"devdoc": {
+			"details": "Interface of the ERC20 standard as defined in the EIP.",
 			"events": {
 				"Approval(address,address,uint256)": {
 					"details": "Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance."
@@ -229,7 +230,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"TokenSGTX/contracts/SGTX.sol": "IERC20"
+			"TokenSGTX/contracts/Examples_Contracts/IERC20.sol": "IERC20"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -243,12 +244,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"TokenSGTX/contracts/SGTX.sol": {
-			"keccak256": "0xa401ceaa32aade5045597bbef0ead0641685fb5be7f7be62601bc553dacc1015",
+		"TokenSGTX/contracts/Examples_Contracts/IERC20.sol": {
+			"keccak256": "0x128678ee3c594161a26eae9b27d21b934e79556ce866306133c790c22d34f38c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://956e79cbd5c59fd4ed6d04335839fb9a33872da8b70fd659b528710a133df903",
-				"dweb:/ipfs/QmVAwsEjS6gHGz8FpvEJFWrysgJkzkoaQn2pjdDBmAvCFf"
+				"bzz-raw://10971d43d16db54afe5212a618c36569bd34e3e25a63be612cf13652f2424efa",
+				"dweb:/ipfs/QmcsbVy4JBiamLWLMDrijhSW7CAZtyfh38prNuMq6geVT9"
 			]
 		}
 	},

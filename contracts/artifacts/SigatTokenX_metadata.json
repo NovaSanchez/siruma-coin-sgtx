@@ -714,13 +714,13 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"TokenSGTX/contracts/Examples_Contracts/IERC20.sol": {
+		"TokenSGTX/contracts/IERC20.sol": {
 			"keccak256": "0x128678ee3c594161a26eae9b27d21b934e79556ce866306133c790c22d34f38c",
 			"license": "MIT",
 			"urls": [
@@ -728,20 +728,20 @@
 				"dweb:/ipfs/QmcsbVy4JBiamLWLMDrijhSW7CAZtyfh38prNuMq6geVT9"
 			]
 		},
-		"TokenSGTX/contracts/Examples_Contracts/draft-IERC6093.sol": {
+		"TokenSGTX/contracts/SGTX.sol": {
+			"keccak256": "0xa68fa159bb7880158e0051f563dfa99671725c7f0c403dee1c19a3d8191f7e3a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c37f8f4490989670cc1785d98bfb16547db2ff38e1db9f884088c818b1cda135",
+				"dweb:/ipfs/QmeMawdY12pJpH4mFQptBTyQZqxdfFAzA4tZDj8h85RdmW"
+			]
+		},
+		"TokenSGTX/contracts/draft-IERC6093.sol": {
 			"keccak256": "0x9cac1f97ecc92043dd19235d6677e40cf6bac382886a94f7a80a957846b24229",
 			"license": "MIT",
 			"urls": [
 				"bzz-raw://a1e0c924e0edfdfd4abceeb552d99f1cd95c0d387b38ccb1f67c583607e3d155",
 				"dweb:/ipfs/QmZAi6qKa66zuS3jyEhsQR9bBNnZe1wSognYqw9nvseyUz"
-			]
-		},
-		"TokenSGTX/contracts/SGTX.sol": {
-			"keccak256": "0xda470d8fa9e920f51165f6abfd0b5bcb6d14e1036de5dbf5a4fa6f0d2ffe9960",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://bc947283b49a3630a9de63d9416c63a9253f16010790a4928d2a4239a2ff5c63",
-				"dweb:/ipfs/QmQHCqrKn16NffjxN8AX9HvkJ9pPkKh5267Bi4CbNPHQ9f"
 			]
 		}
 	},
