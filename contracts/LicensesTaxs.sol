@@ -69,10 +69,11 @@ contract LicenseTaxPayer is ISignature {
 //      function, then a struct in memory, objlisense, which will be verified and finally
 //      stored/updated through _checkLicense, the total supply of minted licenses will be increased,
 //      the balance of the taxpayer's address will be updated and then the signature will be returned
-/// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
-//          _approver(use to sign): personal how aproved in real world the license in sigat,
-//          data: string with values internals of economic license(used to sign),
-//         identifier: (used to sing) lincese unique value gived by sigat on license aproved
+/// @param _consept: mayoralty(use to sign),
+/// @param _owner(use to sign): taxpayer how belong the license,
+/// @param _approver(use to sign): personal how aproved in real world the license in sigat,
+/// @param  data: string with values internals of economic license(used to sign),
+/// @param  identifier: (used to sing) lincese unique value gived by sigat on license aproved
 /// @return bytes32 unique by license
     function signatureMint(
         string memory _consept,
@@ -186,21 +187,22 @@ contract LicenseTaxPayer is ISignature {
 
     /// @notice Einternal function to encrypt data to signature - [only owner]
     /// @dev encode all parameter gived with keccak256 to get a unique value in byte32 how will be a digital sing license
-    /// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
-    //       _approver(use to sign): personal how aproved in real world the license in sigat,
-    //       data: string with values internals of economic license(used to sign),
-    //       identifier: (used to sing) lincese unique value gived by sigat on license aproved
+    /// @param _consept: mayoralty(use to sign)
+    /// @param _identifier: (used to sing) lincese unique value gived by sigat on license aproved
+    /// @param _taxPayer(use to sign): taxpayer how belong the license,
+    /// @param _data: string with values internals of economic license(used to sign),
+    /// @param _approver(use to sign): personal how aproved in real world the license in sigat,
     /// @return bytes32 value is a digital sign license
     function singLicense(
         string memory _consept,
         string memory _identifier,
         address _taxPayer,
         string memory _data,
-        address _aprrover
+        address _approver
     ) private view isOwner returns (bytes32) {
         return
             keccak256(
-                abi.encode(_consept, _identifier, _taxPayer, _data, _aprrover)
+                abi.encode(_consept, _identifier, _taxPayer, _data, _approver)
             );
     }
     /// @notice private function in charge to confirm a licence can storage or
@@ -242,12 +244,12 @@ contract LicenseTaxPayer is ISignature {
 
     /// @notice Validate a license given data to check if exist or not
     /// @dev Given the same values as mint function this will be encrypt the params and the search by signatureValidate if license exist
-    /// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
-    //       _approver(use to sign): personal how aproved in real world the license in sigat,
-    //       data: string with values internals of economic license(used to sign),
-    //       identifier: (used to sing) lincese unique value gived by sigat on license aproved
+    /// @param _consept: mayoralty(use to sign), _
+    /// @param _owner(use to sign): taxpayer how belong the license,
+    /// @param _approver(use to sign): personal how aproved in real world the license in sigat,
+    /// @param data: string with values internals of economic license(used to sign),
+    /// @param  identifier: (used to sing) lincese unique value gived by sigat on license aproved
     /// @return bool
-    /// @inheritdoc	Copies all missing tags from the base function (must be followed by the contract name)
     function validateData(
         string memory _consept,
         string memory _owner,
@@ -311,7 +313,7 @@ contract LicenseTaxPayer is ISignature {
     /// @notice retive a expired license storage in _recordedLicenses
     /// @dev retive a expired license storage in _recordedLicenses validating owner and old signature
     /// @param _owner address, sign byte32
-    /// @return StructSignature
+    /// @return oldLicense StructSignature
     function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory oldLicense) {
         StructSignature[] memory objLincenses = _recordedLicenses[_owner];
          for (uint256 i = 0; i < objLincenses.length; i++) {
