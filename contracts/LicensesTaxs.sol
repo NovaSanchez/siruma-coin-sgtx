@@ -6,6 +6,12 @@ pragma experimental ABIEncoderV2;
 
 import { ISignature } from "./libs/ISignature.sol";
 
+/// @title Digital Signer Licenses,
+/// @author Alejandro Pujol, Ivan Ochoa, Guillermo Sanchez.
+/// @notice This contract seeks the immutability of the economic licenses
+//          practiced by a taxpayer which were issued by a mayor's office.
+/// @dev stores data struct (signatureMint) in a format inherited from an interface which allows
+//       traceability and license management;
 contract LicenseTaxPayer is ISignature {
 
     mapping(bytes32 => StructSignature) _signatureEnabled;
@@ -55,6 +61,19 @@ contract LicenseTaxPayer is ISignature {
         _symbol = symbol_;
     }
 
+
+/// @notice mint, Encrypt and storage a new Licenc.
+/// @dev First, it is verified that the taxpayer exists in the taxpayer mapins
+//      and that the approver is in the approvers mapins, then a signature is created
+//      with the data by parameters such as: _consept, data, identifier through the singLicense
+//      function, then a struct in memory, objlisense, which will be verified and finally
+//      stored/updated through _checkLicense, the total supply of minted licenses will be increased,
+//      the balance of the taxpayer's address will be updated and then the signature will be returned
+/// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
+//          _approver(use to sign): personal how aproved in real world the license in sigat,
+//          data: string with values internals of economic license(used to sign),
+//         identifier: (used to sing) lincese unique value gived by sigat on license aproved
+/// @return bytes32 unique by license
     function signatureMint(
         string memory _consept,
         string memory _owner,
@@ -101,6 +120,11 @@ contract LicenseTaxPayer is ISignature {
         return objlisense.signature;
     }
 
+
+/// @notice Validates whether a license is valid even if it exists
+/// @dev return a bolean values if licence exist in mapping _signatureEnabled where only are a valid licenses
+/// @param singnature bytes32 returned by signatureMint function
+/// @return bool
     function signatureValidate(
         bytes32 singnature
     ) public view returns (bool) {
@@ -111,40 +135,62 @@ contract LicenseTaxPayer is ISignature {
         return true;
     }
 
+/// @notice retrive a data for a store licences minted by singnature
+/// @dev returns all stored data from the mining process given a valid byte32 signature
+/// @param singnature bytes32, valid
+/// @return StructSignature
     function getSignature(
         bytes32 singnature
     ) external view isAdmin returns (StructSignature memory) {
         return _signatureEnabled[singnature];
     }
 
+
+    // *** deprecated ***
     function getOwnnerSignature(
         bytes32 singnature
-    ) external view returns (StructSignature memory) {
-        StructSignature memory obj = _signatureEnabled[singnature];
-        require(
-            obj.owner == msg.sender,
-            "You monst be the owner to show data signed"
-        );
-
-       return obj;
+    ) external view isAdmin returns (StructSignature memory) {
+        return _signatureEnabled[singnature];
     }
 
+    /// @notice returns all licenses from a taxpayer address, only by admins
+    /// @dev retrive a array byte32 with all licenses signed by a address taxpayer,
+    //       restricted only for admins
+    /// @param _owner address
+    /// @return Array<byte32>
     function getManyAddressSignature(
         address _owner
     ) external view isAdmin returns (bytes32[] memory) {
         return _userSings[_owner];
     }
 
+
+    /// @notice returns all licenses from a taxpayer sender, public function
+    /// @dev public function to retrive a array byte32 with all licenses signed by a address taxpayer sender
+    /// @return Array<byte32>
     function getOwnerAddressSignature() external view returns (bytes32[] memory) {
         return _userSings[msg.sender];
     }
 
+
+    /// @notice public but only can use the admins return a address by the identifier of taxpayer in real world
+    /// @dev retrieve a address stored in mapping by string represent the identifier of taxpayer in real world
+    /// @param _rif string
+    /// @return address of taxpayer
     function taxpayerAddress(
         string memory _rif
     ) public view isAdmin returns (address) {
         return _taxpayers[_rif];
     }
 
+
+    /// @notice Einternal function to encrypt data to signature - [only owner]
+    /// @dev encode all parameter gived with keccak256 to get a unique value in byte32 how will be a digital sing license
+    /// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
+    //       _approver(use to sign): personal how aproved in real world the license in sigat,
+    //       data: string with values internals of economic license(used to sign),
+    //       identifier: (used to sing) lincese unique value gived by sigat on license aproved
+    /// @return bytes32 value is a digital sign license
     function singLicense(
         string memory _consept,
         string memory _identifier,
@@ -157,7 +203,13 @@ contract LicenseTaxPayer is ISignature {
                 abi.encode(_consept, _identifier, _taxPayer, _data, _aprrover)
             );
     }
-
+    /// @notice private function in charge to confirm a licence can storage or
+    //          delete and then storage a new one depending of identifier
+    /// @dev validate if license aready exist in enum creating a struct in memory by the sign,
+    //      in case revert the transaction, else, if the identifier exist delete the old one,
+    //      in both case new/update will be a storage and emit a new license event
+    /// @param _objectLicense memory StructSignature
+    /// @return bool
     function _checkLicense(
         StructSignature memory _objectLicense
     ) private isOwner returns (bool) {
@@ -188,6 +240,14 @@ contract LicenseTaxPayer is ISignature {
         return true;
     }
 
+    /// @notice Validate a license given data to check if exist or not
+    /// @dev Given the same values as mint function this will be encrypt the params and the search by signatureValidate if license exist
+    /// @param _consept: mayoralty(use to sign), _owner(use to sign): taxpayer how belong the license,
+    //       _approver(use to sign): personal how aproved in real world the license in sigat,
+    //       data: string with values internals of economic license(used to sign),
+    //       identifier: (used to sing) lincese unique value gived by sigat on license aproved
+    /// @return bool
+    /// @inheritdoc	Copies all missing tags from the base function (must be followed by the contract name)
     function validateData(
         string memory _consept,
         string memory _owner,
@@ -206,6 +266,9 @@ contract LicenseTaxPayer is ISignature {
         return signatureValidate(singLicenseObj);
     }
 
+    /// @notice storage a license data in contract then emit a new signal with owner and sign, private, only owner can use this function
+    /// @dev Storage a struct license in mapping and emit a new  license event with sing and owner
+    /// @param _objectLicense StructSignature
     function _createLicense(StructSignature memory _objectLicense) private isOwner {
         _signatureEnabled[_objectLicense.signature] = _objectLicense;
         _userSings[_objectLicense.owner].push(_objectLicense.signature);
@@ -215,11 +278,19 @@ contract LicenseTaxPayer is ISignature {
         );
     }
 
+    /// @notice delete a storaged a license data in contract then emit a delete signal with owner and sign, private, only owner can use this function
+    /// @dev delete a existing Storage a struct license in mapping and emit a delete license event with sing and owner
+    /// @param sing bytes32, _owner address
     function _deleteLicense(bytes32 sing, address _owner) private isAdmin() {
         delete _signatureEnabled[sing];
         emit eventSignatureExpired(_owner, sing);
     }
 
+
+    /// @notice declare and mark a license has expired, this mind the license will be delete and resotraged in old's licenses just admins can execute this function
+    /// @dev delect a license by _deleteLicense method, decress the owner total balance, delete  license for valid mappings and the  re-storage the old license in _recordedLicenses legacy
+    /// @param singnature bytes32
+    /// @return bool
     function expirationLicense(
         bytes32 singnature
     ) public payable isAdmin returns (bool) {
@@ -237,7 +308,10 @@ contract LicenseTaxPayer is ISignature {
         return true;
     }
 
-
+    /// @notice retive a expired license storage in _recordedLicenses
+    /// @dev retive a expired license storage in _recordedLicenses validating owner and old signature
+    /// @param _owner address, sign byte32
+    /// @return StructSignature
     function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory oldLicense) {
         StructSignature[] memory objLincenses = _recordedLicenses[_owner];
          for (uint256 i = 0; i < objLincenses.length; i++) {
