@@ -120,3 +120,109 @@ The functioning of the token will be specific based on the type of service SIRUM
     
 -   Bridge to exchange tokens in the available networks. Users will be able to exchange tokens with any cost associated. This way, the token will acquire commercial value in the main and related networks.
 
+# Smart Contracts for Digital Signatures with Commercial Licenses  Managed by  S1GAT
+
+  
+
+# Summary:
+
+This whitepaper describes the design and functionality of a smart contract developed in the PulseChain network to keep encrypted data of taxpayers’ commercial licenses safe and transparent for mayors operating in S1GAT. The smart contract guarantees the immutability of license data and enables the digital signature of securities, ensuring its authenticity and safety. Furthermore, taxpayers can follow up their commercial licenses through blockchain by using block browsers deployed in the network, just like the ones S1GAT offers.
+
+# 1.  Introduction:
+
+The licenses for economic activities are permits for taxpayers so they can operate commercially under the jurisdiction of a given mayor. Thanks to the tax management system, S1GAT, mayors can manage tax collection in a better way. Since these taxes are tied up, legally and systematically, to a commercial license, the user can pay their taxes comfortably and can consult any details of all the commercial licenses they hold.
+
+To generate trust in taxpayers, and because of the central government requirements regarding sending and storage of messages, a digital signature that generates unique and unrepeatable characters is needed. These characters will share information about the economic activity of a company such as issuance date and expiration date.
+
+A smart contract is the best solution because it lets you keep and sign the supplied data that confirms the authenticity of a license by S1GAT, tying a digital signature with a taxpayer. This way, we go one step forward with the GovTech concept.
+
+## Smart Contract Objective
+
+Storage, safe, immutable, and transparent, the data of commercial licenses in digital signatures by using data encryption, ensuring admin and taxpayer privacy, and the verification and following up of the data stored in these signatures.
+
+# 2. Smart Contract Design:
+
+While researching the ecosystem standards, we couldn’t find one with a framework similar to the smart contract we need. That's why we propose a new type of standard to store, retrieve, and confirm the signed data beside a unique and applicable method for multiple areas.
+
+![](https://lh7-us.googleusercontent.com/ubHqlC2HLYsYWMyeX0vicBgMuvXISgPUHI4aYQ3nl_QwYrryFPA_MOLAmhr6CmZ9LSV-R8-bzZF4ELfWriGtgxiK1_ZMheebdkaJ6-7zNIEBTJ1DXThKMw6HiWyBrzLQDP7sStfjElBDvO_Y0uGyC0g)
+
+One of our main focal points for research went around the ERC-721 standard, which is known as a non-fungible token, unique and with only one owner. Nonetheless, the stored data in the contract was not enough to generate the desired trust to support taxpayers.
+
+These are the mechanism and main actors of the smart contract:
+
+1.  Owner
+    
+2.  Admins who can approve and remove signatures.
+    
+3.  Holders, who can use the signatures as they please, access mint methods, obtain the securities and validate the said signature.
+    
+
+## 4. Security and transparency:
+
+For the recording process of licenses’ signatures, it is necessary to sign up holders and admins in private internal dictionaries, which can be accessed only by owners. As an exception, admins can access this data too whenever they want to validate holders by address or ID.
+
+In the event a user has both roles, admin and holder, they won’t be able to approve their signature; rather, another admin must approve it. When creating a signature, several pieces of data are needed to sign, plus admins and holders' data, which are validated in real-time. This way, the system can send early alerts for any duplicated data, for example.
+
+Besides this, there are additional methods that, given the values, can confirm this data and ensure it is recorded correctly in the smart contract so that frauds are avoided. Lastly, admins can remove licenses following the rules established by mayors or the central government.
+
+However, while running this process, a new event stems that communicates the removal of a certain license for a holder which can be scanned. Yet, this information is stored and can only be accessed by the holder or the owner.
+
+## 5. Use cases and advantages for users:
+
+The main purpose of smart contracts is to ensure the authenticity of an economic license date by S1GAT. With this, the taxpayer can access and verify their data through the integration of multiple platforms.
+
+The most common is using a blockchain browser, yet we are planning to create a digital wallet that will let the holder verify their license data, follow up on its status, and share that data with admins. This is a practical and ecological way to carry and use their licenses.
+
+This is not the only possible use of the smart contract. There are other realities and potentialities associated with them. In Latin America, the use of smart contracts is not widespread, either because they associate blockchain technology with cryptocurrencies or because the information hasn’t been explained properly.
+
+However, there are some examples of how companies have taken advantage of smart contracts to ease transactions with public and private organizations. For example, Koibanx managed around 52 million Colombian pesos between 2016 and 2018 which let governments and citizens celebrate transparent contracts.
+
+The Corporación Nacional del Cobre de Chile (CODELCO)  gives us another use case for smart contracts. All their documents are encrypted and stored in blockchain, which lets them organize and accelerate company transactions.
+
+Similarly, the Coordinador Eléctrico Nacional (CEN) uses smart contracts to follow up each megawatt hour of renewable energy, from the moment it is generated to its final consumption. Lastly, Thomas Signe, through its program GOUZE, follows up all the processes their clients’ commodities have to go through, from its production to its sale; all of this is done securely and transparently.
+
+Regarding the potentialities, smart contracts are great for any transaction requiring a third party. In this case, the smart contract would function as the third party. In concrete terms, Venezuela could shelter the data generated in transactions celebrated in the stock exchange, in legal activities like selling/buying movable and immovable property, and celebrate work contracts with an escrow where the funds are released once the milestones are met, among other applications.
+
+## 6. Deployment and future enhancements:
+
+As a main and first step, the token will be deployed in the PulseChain network. Yet, we want to expand this deployment to other networks to increase the token’s possibilities. Some of them are the financial network Smart Chain, Tron network Ethereum, or any of their second-layer networks.
+
+For the moment, we have done the main deployment, that is, our main actor, S1GAT, is integrated with our API as shown in the following graphic.
+
+[insert a cool graphic here]
+
+## 7. Participants:
+
+·  Ivan Ochoa
+
+·  Guillermo Sanchez
+
+·  Ludwig Laborda
+
+## 8. Roadmap:
+
+-   Smart contra WebPage going live. The website will have a landing page to show the fundamental elements of the smart contract plus an additional view to download this document.  
+    [release date: It will be the same date this document is released which will happen before the smart contract publication in the main net].
+    
+-   Set up channels to support our clients through Telegram and WhatsApp.  
+    [release date: Same as this document’s]
+    
+-   Release of the app that will let holders carry the digital signature and share the actual status of their license for economic activities.  
+    [release date: Six months after the deployment of the smart contract].
+    
+-   Release of the app that validates signatures for public workers. This app will guarantee them access to a bank of data related to licenses in a given territory as well as update a license status as they see fit.  
+    [release date: Six months after the deployment of the smart contract].
+    
+
+## 9. Conclusions:
+
+In summary, the market release of smart contracts for digital signatures related to commercial licenses operated in S1GAT constitutes an additional step towards governance that employs technological means to serve taxpayers in the best way possible.
+
+Therefore, it is an additional effort to facilitate common transactions established by the actual legislation and support public workers with their daily tasks.
+
+Lastly, the exercise of these smart contracts opens the gates for additional usages and solutions in other areas of the national economy, from the stock exchange to sending and receiving securities all over the country.
+
+## 10. References:
+
+Thomas Signe. «Smart Contracts en Latinoamérica: Blockchain a otro nivel.» Accessed on February, 26th 2024. [https://www.thomas-signe.cl/blog/smart-contracts-en-latinoamerica-el-blockchain-a-otro-nivel](https://www.thomas-signe.cl/blog/smart-contracts-en-latinoamerica-el-blockchain-a-otro-nivel)
+
