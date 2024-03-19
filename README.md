@@ -1,4 +1,6 @@
-## Heading White Paper | S1RUMACOIN  
+## Heading White Paper | S1RUMACOIN
+
+*DEV (SGTX-codename) 
 
 ## Summary
 
@@ -117,3 +119,4 @@ The functioning of the token will be specific based on the type of service SIRUM
     [Estimated date release]
     
 -   Bridge to exchange tokens in the available networks. Users will be able to exchange tokens with any cost associated. This way, the token will acquire commercial value in the main and related networks.
+
