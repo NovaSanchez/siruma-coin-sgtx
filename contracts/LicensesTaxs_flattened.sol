@@ -1,10 +1,43 @@
+
 // SPDX-License-Identifier: Apache-2.0
+
+pragma solidity ^0.8.17;
+
+interface ISignature {
+    
+    struct StructSignature {
+        string concept;
+        string identifier;
+        address owner;
+        string data;
+        address aprrover;
+        bytes32 signature;
+        bool isEntity;
+    }
+
+    function signatureMint(
+        string calldata _consept,
+        string calldata _owner,
+        string calldata _approver,
+        string calldata data,
+        string calldata identifier
+    ) external payable returns (bytes32);
+
+    function signatureValidate(bytes32 singnature) external view returns (bool);
+
+    function getSignature(bytes32 singnature) external view returns (StructSignature memory);
+
+    function getManyAddressSignature(address owner) external view returns (bytes32[] memory);
+
+}
+// File: contracts/LicensesTaxs.sol
+
+
 
 
 pragma solidity >=0.8.17 <=0.8.21;
 pragma experimental ABIEncoderV2;
 
-import { ISignature } from "./libs/ISignature.sol";
 
 /// @title Digital Signer Licenses,
 /// @author Alejandro Pujol, Ivan Ochoa, Guillermo Sanchez.
@@ -395,7 +428,7 @@ contract LicenseTaxPayer is ISignature {
     }
 
     modifier isAdmin() {
-        require(_admins[msg.sender], "Only ADMIN can activate this function");
+        require(_admins[msg.sender]);
         _;
     }
 

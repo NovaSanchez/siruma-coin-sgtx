@@ -5,9 +5,8 @@ pragma solidity ^0.8.20;
 import {IERC20} from "./libs/IERC20.sol";
 import {IERC20Errors} from "./libs/draft-IERC6093.sol";
 
+contract S1gatToken is IERC20, IERC20Errors {
 
-
-contract SigatTokenX is IERC20, IERC20Errors {
     address private _owner;
     string private _name;
     string private _symbol;
@@ -17,7 +16,6 @@ contract SigatTokenX is IERC20, IERC20Errors {
     bool private _freeTranfer;
 
     mapping(address => uint256) public _balances;
-    mapping(address => bool) public _holders;
     mapping(address => bool) public _freeze;
     mapping(address => mapping(address => uint256)) private _allowances;
 
@@ -26,10 +24,15 @@ contract SigatTokenX is IERC20, IERC20Errors {
         uint256 indexed timeStamp,
         bool indexed paused
     );
+
     event FreeTranfered(
         address indexed currentOwner,
         uint256 indexed timeStamp,
         bool indexed freeTranfer
+    );
+
+    event mintTokens(
+        uint32 Amount
     );
 
     constructor(
@@ -67,6 +70,11 @@ contract SigatTokenX is IERC20, IERC20Errors {
         address from = msg.sender;
         _update(from, to, value);
         return true;
+    }
+
+    function mint(uint32 supply) public isOwner {
+        _update(address(0), _owner, uint256(supply));
+        emit mintTokens(supply);
     }
 
     function _transfer(address from, address to, uint256 value) internal {
