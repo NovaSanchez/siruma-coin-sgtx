@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 import {IERC20} from "./libs/IERC20.sol";
 import {IERC20Errors} from "./libs/draft-IERC6093.sol";
 
-contract SigatTokenX is IERC20, IERC20Errors {
+contract S1gatToken is IERC20, IERC20Errors {
 
     address private _owner;
     string private _name;
