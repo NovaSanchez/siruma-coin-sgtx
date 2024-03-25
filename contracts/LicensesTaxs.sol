@@ -81,7 +81,7 @@ contract LicenseTaxPayer is ISignature {
         string memory _approver,
         string memory data,
         string memory identifier
-    ) public payable isOwner allowMint returns (bytes32) {
+    ) public payable isAdmin allowMint returns (bytes32) {
         require(
             taxpayerAddress(_owner) != address(0),
             "Rif Not Registred has Taxpayer"
@@ -199,7 +199,7 @@ contract LicenseTaxPayer is ISignature {
         address _taxPayer,
         string memory _data,
         address _approver
-    ) private view isOwner returns (bytes32) {
+    ) private view isAdmin returns (bytes32) {
         return
             keccak256(
                 abi.encode(_consept, _identifier, _taxPayer, _data, _approver)
@@ -214,7 +214,7 @@ contract LicenseTaxPayer is ISignature {
     /// @return bool
     function _checkLicense(
         StructSignature memory _objectLicense
-    ) private isOwner returns (bool) {
+    ) private isAdmin returns (bool) {
         StructSignature memory objlisense = _signatureEnabled[
             _objectLicense.signature
         ];
@@ -271,7 +271,7 @@ contract LicenseTaxPayer is ISignature {
     /// @notice storage a license data in contract then emit a new signal with owner and sign, private, only owner can use this function
     /// @dev Storage a struct license in mapping and emit a new  license event with sing and owner
     /// @param _objectLicense StructSignature
-    function _createLicense(StructSignature memory _objectLicense) private isOwner {
+    function _createLicense(StructSignature memory _objectLicense) private isAdmin {
         _signatureEnabled[_objectLicense.signature] = _objectLicense;
         _userSings[_objectLicense.owner].push(_objectLicense.signature);
         emit eventSignatureCreate(
@@ -314,7 +314,7 @@ contract LicenseTaxPayer is ISignature {
     /// @dev retive a expired license storage in _recordedLicenses validating owner and old signature
     /// @param _owner address, sign byte32
     /// @return oldLicense StructSignature
-    function getExpiredLicense(address _owner , bytes32 sign) public payable isOwner returns (StructSignature memory oldLicense) {
+    function getExpiredLicense(address _owner , bytes32 sign) public payable isAdmin returns (StructSignature memory oldLicense) {
         StructSignature[] memory objLincenses = _recordedLicenses[_owner];
          for (uint256 i = 0; i < objLincenses.length; i++) {
             if (objLincenses[i].signature == sign) {
@@ -326,7 +326,7 @@ contract LicenseTaxPayer is ISignature {
     function addTaxPayer(
         string memory _rif,
         address _relationAddress
-    ) public payable isOwner returns (bool) {
+    ) public payable isAdmin returns (bool) {
         _taxpayers[_rif] = _relationAddress;
         return true;
     }
@@ -345,7 +345,7 @@ contract LicenseTaxPayer is ISignature {
 
     function approveAdmin(
         address _relationAddress
-    ) public payable isOwner returns (bool) {
+    ) public payable isAdmin returns (bool) {
         require(
             _propoceAdmins[_relationAddress] == true,
             "address must be registred by admins"
@@ -359,7 +359,7 @@ contract LicenseTaxPayer is ISignature {
     function addApprover(
         string memory _Id,
         address _relationAddress
-    ) public payable isOwner returns (bool) {
+    ) public payable isAdmin returns (bool) {
         require(_approvers[_Id] == address(0), "Address already added");
         _approvers[_Id] = _relationAddress;
         emit eventNewApprover(_relationAddress, true);
@@ -368,19 +368,19 @@ contract LicenseTaxPayer is ISignature {
 
     function tranferOwnership(
         address NewOwner
-    ) public payable isOwner returns (bool) {
+    ) public payable isAdmin returns (bool) {
         require(NewOwner != address(0), "Owner can't be a Zero address");
         owner = NewOwner;
         return true;
     }
 
-    function setSuccessor(address _successor) public payable isOwner returns (address) {
+    function setSuccessor(address _successor) public payable isAdmin returns (address) {
         require(_successor != address(0), "Must be a valid address");
         successor = _successor;
         return successor;
     }
 
-    function mintingStop() public isOwner returns (bool) {
+    function mintingStop() public isAdmin returns (bool) {
         stopMinting = !stopMinting;
         return stopMinting;
     }
@@ -395,7 +395,7 @@ contract LicenseTaxPayer is ISignature {
     }
 
     modifier isAdmin() {
-        require(_admins[msg.sender]);
+        require(_admins[msg.sender], "Only ADMIN can activate this function");
         _;
     }
 
