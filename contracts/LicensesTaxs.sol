@@ -44,8 +44,6 @@ contract LicenseTaxPayer is ISignature {
 
     bool private stopMinting = true;
 
-    address public successor;
-
     int32 public totalMinted = 0;
 
     string private _name;
@@ -372,12 +370,6 @@ contract LicenseTaxPayer is ISignature {
         require(NewOwner != address(0), "Owner can't be a Zero address");
         owner = NewOwner;
         return true;
-    }
-
-    function setSuccessor(address _successor) public payable isAdmin returns (address) {
-        require(_successor != address(0), "Must be a valid address");
-        successor = _successor;
-        return successor;
     }
 
     function mintingStop() public isAdmin returns (bool) {
