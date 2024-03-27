@@ -32,7 +32,7 @@ contract S1gatToken is IERC20, IERC20Errors {
     );
 
     event mintTokens(
-        uint32 Amount
+        uint256 Amount
     );
 
     constructor(
@@ -72,7 +72,7 @@ contract S1gatToken is IERC20, IERC20Errors {
         return true;
     }
 
-    function mint(uint32 supply) public isOwner {
+    function mint(uint256 supply) public isOwner {
         _update(address(0), _owner, uint256(supply));
         emit mintTokens(supply);
     }
@@ -222,7 +222,7 @@ contract S1gatToken is IERC20, IERC20Errors {
 
     modifier isFreeze() {
         require(
-            isFreezed(msg.sender) == false, 
+            isFreezed(msg.sender) == false,
             "Address is freezed "
         );
         _;
